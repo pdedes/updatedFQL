@@ -116,42 +116,105 @@ debugger;
 
 }
 
+// FQL.prototype.where = function (condition) {
+//     var results = [];
+
+//     // Cycling through the condition filters
+//     for (var key in condition) {
+
+//         // entering movie table
+//         for (var i = 0; i < this.obj.length; i++) {
+
+//             // looping individual row (this.obj[i] is row)
+//             // Omri informs us that this is an unnecessary loop, 
+//             // since we can dial straight to the object attributes
+//             for (var key2 in this.obj[i]){
+
+//                 // need number of properties in condition
+//                 // conditions.length (get length of object)
+//                 // loop through object's properties
+//                 // access original object and compare appropriate key for condition
+
+//                 // condition(year) compare with this.obj[i].key (we want year, not the value of year)
+//                 // condition(rank) compare with
+
+//                 // check for string equality
+//                 if (condition[key] === this.obj[i][key2]) {
+//                     //if true, push to stack
+//                     results.push(this.obj[i]);
+
+//                     // else if not string, check if function
+//                 } else if ((typeof condition[key] === 'function') && (key === key2)){
+//                     // if function and meets condition
+//                     var movieRow = this.obj[i];
+//                     var filter = condition[key]; 
+//                     debugger;
+//                     console.log(condition[key]);
+//                     console.log(condition[key](movieRow[key2]));
+//                     console.log("This is key: " + key);
+//                     console.log("This is key2: " + key2);
+
+//                     if (filter(movieRow[key2])){
+//                         console.log("This ran successfully " + filter(movieRow[key2]));
+//                         // push to stack
+//                         results.push(this.obj[i]);
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     this.obj = results;
+//     return this;
+// }
+
+
+
 FQL.prototype.where = function (condition) {
     var results = [];
+    var counter = 0;
 
     // Cycling through the condition filters
     for (var key in condition) {
-
         // entering movie table
+
+
         for (var i = 0; i < this.obj.length; i++) {
+           
 
-            // looping individual row (this.obj[i] is row)
-            for (var key2 in this.obj[i]){
-
-                // need number of properties in condition
-                // conditions.length (get length of object)
-                // loop through object's properties
-                // access original object and compare appropriate key for condition
-
-                // condition(year) compare with this.obj[i].key (we want year, not the value of year)
-                // condition(rank) compare with
+                    var filter = condition[key]; 
+                    var movieRow = this.obj[i];
 
                 // check for string equality
-                if (condition[key] === this.obj[i][key2]) {
+                if (filter === this.obj[i][key]) {
                     //if true, push to stack
-                    results.push(this.obj[i]);
+                    results[counter].push(this.obj[i]);
 
                     // else if not string, check if function
-                } else if (typeof condition[key] === 'function' && key === key2){
+                    } else if ((typeof filter === 'function') && (filter(movieRow[key]) )) {
                     // if function and meets condition
-                    if (condition[key](this.obj[i][key2])){
+                    //var movieRow = this.obj[i];
+//                    var filter = condition[key]; 
+
+
+                    //if (filter(movieRow[key2])){
+                      //  console.log("This ran successfully " + filter(movieRow[key2]));
                         // push to stack
-                        results.push(this.obj[i]);
+                        results[counter].push(this.obj[i]);
                     }
+                
                 }
-            }
+        //end of for loop with i
+        counter++;
         }
+    
+    //
+    //return the interserction of the two arrays
+    for (var k = 0; k < counter; k++)
+    {
+        if results[k]
     }
+
 
     this.obj = results;
     return this;

@@ -39,12 +39,12 @@ describe('Functional Query Language', function () {
    * Should have an exec() function that returns the
    * current internal data set of the FQL class
    */
-  it('should have an exec function', function () {
+  xit('should have an exec function', function () {
     var all_movies = moviesTable.exec();
     expect(all_movies).toEqual(movies);
   });
 
-  it('should have a count method', function () {
+  xit('should have a count method', function () {
     // count() returns how many records are in the movies array
     // check 0_movies.js for the data set
     // 
@@ -57,7 +57,7 @@ describe('Functional Query Language', function () {
    *  cut out the first X rows.  count() should 
    *  then show only those rows.
    */
-  it('should have a limit() method', function () {
+  xit('should have a limit() method', function () {
     expect(moviesTable
       .limit(5)
       .count())
@@ -68,7 +68,7 @@ describe('Functional Query Language', function () {
    * The exec() function should returns the
    * current result of the chained query
    */
-  it('should limit and have chained exec function', function () {
+  xit('should limit and have chained exec function', function () {
     // this will return the first movie row, Aliens
     var first_movie = moviesTable.limit(1).exec();
     expect(first_movie.length).toEqual(1);
@@ -83,7 +83,7 @@ describe('Functional Query Language', function () {
    * this would be similar to 
    * SELECT * FROM movies WHERE name = "Shrek"
    */
-  it('should support where queries', function() {
+  xit('should support where queries', function() {
     var results = moviesTable
     .where({name: "Shrek"})
     .exec();
@@ -100,7 +100,7 @@ describe('Functional Query Language', function () {
    * where quries can specify a function
    * instead of a value for any given field
    */
-  it('should support predicates in where queries', function() {
+  xit('should support predicates in where queries', function() {
     var results = moviesTable
                     .where({year: function(v) {
                       return v > 2000;
@@ -127,7 +127,7 @@ describe('Functional Query Language', function () {
    *
    * SELECT * FROM movies WHERE year = 2001 and rank > 8;
    */
- xit('should support multiple where queries that return multiple rows', function () {
+ it('should support multiple where queries that return multiple rows', function () {
     var results = moviesTable
                     .where({
                       year: 2001,
@@ -139,11 +139,24 @@ describe('Functional Query Language', function () {
     expect(results).toEqual(expectedResults);
   });
   
+  it('HOMEMADE: should support multiple where queries that return multiple rows', function () {
+    var results = moviesTable
+                    .where({
+                      year: 2001,
+                      rank: function (v) {return v > 8;}
+                    })
+                    .limit(3)
+                    .exec();
+    // console.log(JSON.stringify(results));
+    var expectedResults = [{"id":300229,"name":"Shrek","year":2001,"rank":8.1}];    expect(results).toEqual(expectedResults);    
+    expect(results).toEqual(expectedResults);
+  });
+
   /** 
    * FQL.select(keysArray) can limit which values come back in the query
    * SELECT id, name FROM movies WHERE rank > 8;
    */
-  xit('should support select() queries that limit which values come back', function () {
+  it('should support select() queries that limit which values come back', function () {
     var results = moviesTable
                     .where({rank: function (v) {return v > 8;}})
                     .select(["id", "name"])
@@ -164,8 +177,6 @@ describe('Functional Query Language', function () {
     var expectedResults = [{"id":10920,"name":"Aliens"},{"id":17173,"name":"Animal House"},{"id":18979,"name":"Apollo 13"}];
     expect(results).toEqual(expectedResults);
   });
-
-
   
   /*
    * FQL.order() should simply take a column and re-order 
