@@ -1,7 +1,7 @@
 // Place your code here:
 
 // Adds properties of obj2 into obj1
-function merge(obj1, obj2) {
+function merge(obj1, obj2) { 
     var returnObj = {};
     var args = [].slice.call(arguments, 0);
     var argLen = args.length;
