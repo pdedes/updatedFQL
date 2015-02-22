@@ -82,14 +82,23 @@ FQL.prototype.select = function(columns){
 
     this.obj.forEach(function(movie) {
         debugger;
+        var selectedObj = {};
+        
+        //["id", "name"] <-- array of columns
+        // Get to every key in the movie row object
+        // Then check to see if the columns array contains the asme keys
+        // Use [].indexOf(key) to push that element to the temp object
+        Object.keys(movie).forEach(function(key) {
+            if(columns.indexOf(key) !== -1) {
+                selectedObj[key] = movie[key];
+            }
+        });
 
-        var tempRow = columns.map(function (column) {
-            var selectedObj = {};
-            selectedObj[column] = movie[column];
-            return selectedObj;
-        })
-
-        results.push(tempRow);
+        results.push(selectedObj);
+        // var tempRow = columns.map(function (column) {
+        //     selectedObj[column] = movie[column];
+        //     return selectedObj;
+        // })
     });
 
     this.obj = results;
@@ -98,9 +107,37 @@ FQL.prototype.select = function(columns){
 
 FQL.prototype.order = function(attribute){
 
+    // var attr = eval(attribute);
+
+    this.obj.sort(function(a, b) {
+        // We are providing sort with a way to make a mathematical comparison
+        return a[attribute] - b[attribute];
+        // if (a.attribute > b.attribute) { return 1; }
+        // else if (a.attribute < b.attribute) { return -1; }
+        // else { return 0; }
+    });
+
+    return this;
 }
 
 FQL.prototype.left_join = function(){
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
