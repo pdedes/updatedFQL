@@ -139,18 +139,18 @@ describe('Functional Query Language', function () {
     expect(results).toEqual(expectedResults);
   });
   
-  it('HOMEMADE: should support multiple where queries that return multiple rows', function () {
-    var results = moviesTable
-                    .where({
-                      year: 2001,
-                      rank: function (v) {return v > 8;}
-                    })
-                    .limit(3)
-                    .exec();
-    // console.log(JSON.stringify(results));
-    var expectedResults = [{"id":300229,"name":"Shrek","year":2001,"rank":8.1}];    expect(results).toEqual(expectedResults);    
-    expect(results).toEqual(expectedResults);
-  });
+  // it('HOMEMADE: should support multiple where queries that return multiple rows', function () {
+  //   var results = moviesTable
+  //                   .where({
+  //                     year: 2001,
+  //                     rank: function (v) {return v > 8;}
+  //                   })
+  //                   .limit(3)
+  //                   .exec();
+  //   // console.log(JSON.stringify(results));
+  //   var expectedResults = [{"id":300229,"name":"Shrek","year":2001,"rank":8.1}];    expect(results).toEqual(expectedResults);    
+  //   expect(results).toEqual(expectedResults);
+  // });
 
   /** 
    * FQL.select(keysArray) can limit which values come back in the query

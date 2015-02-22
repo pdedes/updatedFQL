@@ -49,17 +49,22 @@ FQL.prototype.where = function (condition) {
     //This requires you to mutate this.obj
 
     var results = [];
+    
 
     this.obj.forEach(function(row) {
+        var count = 0;
         for (var key in condition) {
             filter = condition[key];
             if(row[key] === filter) {
-                results.push(row);
+                count++;
             } else if (typeof filter === 'function' && filter(row[key])) {
-                results.push(row);
+                count++;
             }
         }
+        if (count === Object.keys(condition).length) { results.push(row); }
     });
+
+    
 
     this.obj = results;
 
@@ -76,6 +81,10 @@ FQL.prototype.where = function (condition) {
     // return this;
 }
 
+FQL.prototype.select = function(columns){
+
+}
+
 FQL.prototype.order = function(attribute){
 
 }
@@ -84,6 +93,3 @@ FQL.prototype.left_join = function(){
 
 }
 
-FQL.prototype.select = function(columns){
-
-}
