@@ -49,25 +49,21 @@ FQL.prototype.where = function (condition) {
     //This requires you to mutate this.obj
 
     var results = [];
-    
 
-    this.obj.forEach(function(row) {
+    this.obj.forEach(function(movie) {
         var count = 0;
         for (var key in condition) {
             filter = condition[key];
-            if(row[key] === filter) {
+            if(movie[key] === filter) {
                 count++;
-            } else if (typeof filter === 'function' && filter(row[key])) {
+            } else if (typeof filter === 'function' && filter(movie[key])) {
                 count++;
             }
         }
-        if (count === Object.keys(condition).length) { results.push(row); }
+        if (count === Object.keys(condition).length) { results.push(movie); }
     });
 
-    
-
     this.obj = results;
-
     return this;
 
     // var movies = this.obj;
@@ -82,7 +78,22 @@ FQL.prototype.where = function (condition) {
 }
 
 FQL.prototype.select = function(columns){
+    var results = []
 
+    this.obj.forEach(function(movie) {
+        debugger;
+
+        var tempRow = columns.map(function (column) {
+            var selectedObj = {};
+            selectedObj[column] = movie[column];
+            return selectedObj;
+        })
+
+        results.push(tempRow);
+    });
+
+    this.obj = results;
+    return this;
 }
 
 FQL.prototype.order = function(attribute){
