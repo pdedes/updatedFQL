@@ -120,8 +120,26 @@ FQL.prototype.order = function(attribute){
     return this;
 }
 
-FQL.prototype.left_join = function(){
+FQL.prototype.left_join = function(joinTable, joinFunc){
+    //joinTable is the table being joined to
+    //joinFunc takes two parameters and acts as the SQL joing equality setting 
+    var results = [];
 
+    //loop through every movie
+    this.obj.forEach(function(movie) {
+        var tempObj = {};
+
+        //loop through ever left-joined element
+        //use a combo of loop/joinFunc to loop through roles and join
+        var tempObj = joinTable.filter(joinFunc(movie, joinTable));
+        
+        //do the final merge on the returned tempObj and movie row
+        merge(movie, tempObj);
+        results.push(results);
+    });
+
+    this.obj = results;
+    return this;
 }
 
 
