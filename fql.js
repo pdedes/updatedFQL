@@ -81,7 +81,7 @@ FQL.prototype.select = function(columns){
     var results = []
 
     this.obj.forEach(function(movie) {
-        debugger;
+        // debugger;
         var selectedObj = {};
         
         //["id", "name"] <-- array of columns
@@ -131,11 +131,21 @@ FQL.prototype.left_join = function(joinTable, joinFunc){
 
         //loop through ever left-joined element
         //use a combo of loop/joinFunc to loop through roles and join
-        var tempObj = joinTable.filter(joinFunc(movie, joinTable));
+        // debugger;
+
+        joinTable.obj.forEach(function(joinTableRow) {
+            if (joinFunc(movie, joinTableRow)) {
+                results.push(merge(movie, joinTableRow));
+            }
+        })
         
+        return new FQL(results);
+        
+        // for (var key in joinTable){ 
+        //     var tempObj = joinTable.filter(joinFunc(movie, joinTable.key));
+        //     merge(movie, tempObj);
+        // }
         //do the final merge on the returned tempObj and movie row
-        merge(movie, tempObj);
-        results.push(results);
     });
 
     this.obj = results;
